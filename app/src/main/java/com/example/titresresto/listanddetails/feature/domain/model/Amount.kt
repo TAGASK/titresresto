@@ -1,6 +1,8 @@
 package com.example.titresresto.listanddetails.feature.domain.model
 
+import androidx.room.Embedded
+
 data class Amount(
     val value : Double,
-    val currency : Currency
+    @Embedded val currency : Currency
 )
