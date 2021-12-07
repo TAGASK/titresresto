@@ -17,14 +17,14 @@ class TransactionRepositoryImpl(
         networkCall = { transactionDataSource.getTransactions() },
         saveCallResult = {
             dataBase.transactionDao.insertAll(
-                it.map { data ->
-                    data.toTransaction()
+                it.transactions.map { data ->
+                    data.toTransaction() as Transaction
                 }
             )
         }
     )
 
     override suspend fun insertAll(transactions: List<Transaction>) {
-        TODO("Not yet implemented")
+       dataBase.transactionDao.insertAll(transactions = transactions)
     }
 }

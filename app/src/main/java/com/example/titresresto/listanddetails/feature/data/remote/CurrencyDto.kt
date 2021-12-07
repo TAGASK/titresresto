@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class CurrencyDto(
 
-    @SerializedName("iso_3"  ) var iso3   : String,
-    @SerializedName("symbol" ) var symbol : String,
-    @SerializedName("title"  ) var title  : String
+    @SerializedName("iso_3"  ) var iso3   : String? = null,
+    @SerializedName("symbol" ) var symbol : String? = null,
+    @SerializedName("title"  ) var title  : String? = null
 
 ) {
     fun toCurrency(): Currency {
