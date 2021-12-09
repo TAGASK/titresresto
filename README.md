@@ -2,7 +2,7 @@
 
 - Author : Frederic Lemieux
 - All dependencies are justified in the gradle files by comments.
-- Continuous integration done with Circle ci
+- Continuous integration done with Bitrise 
   [![Build Status](https://app.bitrise.io/app/f1362518ed78d5e0/status.svg?token=YzVQM-fRKzIxYj14KWidGA&branch=master)](https://app.bitrise.io/app/f1362518ed78d5e0)
 - the project respect clean architecture and modular architecture.
 - Used jetpack compose !!!
