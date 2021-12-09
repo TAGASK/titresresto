@@ -21,7 +21,7 @@ data class Transaction(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 
-    var index: Int = (name + type + date + message).hashCode()
+    var index: Int = (name + type + date + message + String.format("%f",amount.value)).hashCode()
 
     fun getDateAsDate() : Date {
         val dtStart = date

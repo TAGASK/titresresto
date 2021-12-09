@@ -10,4 +10,6 @@ interface TransactionRepository {
 
     suspend fun insertAll(transactions : List<Transaction>)
 
+    fun getTransaction(id: Int): Flow<Resource<Transaction>>
+
 }

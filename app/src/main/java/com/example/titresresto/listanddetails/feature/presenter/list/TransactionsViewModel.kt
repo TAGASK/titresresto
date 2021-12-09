@@ -1,4 +1,4 @@
-package com.example.titresresto.listanddetails.feature.presenter
+package com.example.titresresto.listanddetails.feature.presenter.list
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -38,20 +38,20 @@ class TransactionsViewModel @Inject constructor(
                             }
                             _state.value = state.value.copy(
                                 grouped = grouped,
-                                isTransactionListVisible = true
+                                isVisible = true
                             )
                         }
                     }
                     Resource.Status.ERROR -> {
                         _state.value = state.value.copy(
                             grouped = emptyMap(),
-                            isTransactionListVisible = false
+                            isVisible = false
                         )
                     }
                     Resource.Status.LOADING -> {
                         _state.value = state.value.copy(
                             grouped = emptyMap(),
-                            isTransactionListVisible = false
+                            isVisible = false
                         )
                     }
                 }

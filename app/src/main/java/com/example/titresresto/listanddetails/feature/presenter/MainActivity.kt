@@ -33,30 +33,30 @@ class MainActivity : AppCompatActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.listTransactionScreen.route
+                        startDestination = Screen.ListTransactionScreen.route
                     )
                     {
                         composable(
-                            route = Screen.listTransactionScreen.route
+                            route = Screen.ListTransactionScreen.route
                         ) {
                             ListTransactionScreen(
                                 navController = navController
                             )
                         }
                         composable(
-                            route = Screen.detailsTransactionScreen.route + "/{id}",
+                            route = Screen.DetailsTransactionScreen.route + "/{id}",
                             arguments = listOf(
                                 navArgument(
                                     name = "id"
                                 ) {
-                                    type = NavType.IntType
+                                    type = NavType.StringType
                                 }
                             )
                         ) {
-                            it.arguments?.getInt("id")?.let { it1 ->
+                            it.arguments?.getString("id")?.let { it1 ->
                                 DetailsTransactionScreen(
                                     id = it1,
-                                    navController
+                                    navController = navController
                                 )
                             }
                         }
