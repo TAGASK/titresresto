@@ -42,4 +42,11 @@ data class Transaction(
         val ret: String = format.format(dateDate)
         return ret
     }
+
+    fun getDateAsDetailsLabel(): String {
+        val dateDate = getDateAsDate()
+        val format = SimpleDateFormat("E dd MMMM, HH:mm")
+        val ret: String = format.format(dateDate)
+        return ret
+    }
 }

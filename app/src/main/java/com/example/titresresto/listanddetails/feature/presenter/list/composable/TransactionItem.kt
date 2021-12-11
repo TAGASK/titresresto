@@ -1,21 +1,20 @@
 package com.example.titresresto.listanddetails.feature.presenter.list.composable
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontSynthesis.Companion.Style
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -25,6 +24,8 @@ import coil.transform.CircleCropTransformation
 import com.example.titresresto.R
 import com.example.titresresto.listanddetails.feature.TitresRestoAppTheme
 import com.example.titresresto.listanddetails.feature.domain.model.*
+import com.example.titresresto.listanddetails.feature.presenter.Category
+import com.example.titresresto.listanddetails.feature.presenter.CategoryConstants
 
 @Composable
 fun TransactionItem(
@@ -34,32 +35,83 @@ fun TransactionItem(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier.clickable(onClick = onClick).padding(
-            start = 2.dp,
-            end = 2.dp
-        )
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(
+                start = 2.dp,
+                end = 2.dp
+            )
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-
-            // Advanced
-            Image(
-                painter = rememberImagePainter(
-                    data = transaction.smallIcon.urlSI
-                        ?: R.drawable.ic_launcher_background,
-                    builder = {
-                        transformations(CircleCropTransformation())
+            Box(
+                modifier = Modifier.weight(1f)
+            ) {
+                Box(modifier = Modifier.align(Alignment.Center)) {
+                    // Advanced
+                    val pair = Category.selectIcon(transaction.largeIcon.categoryLI)
+                    var colorF : ColorFilter? = null
+                    var modifierLargeImage = Modifier
+                        .size(90.dp)
+                        .padding(16.dp)
+                        .clip(RoundedCornerShape(25.dp))
+                    if(transaction.largeIcon.urlLI == null) {
+                        modifierLargeImage = Modifier
+                            .size(90.dp)
+                            .padding(25.dp)
+                            .border(10.dp, pair.second.first)
+                            .padding(3.dp)
+                            .background(pair.second.first)
+                            .clip(RoundedCornerShape(25.dp))
+                        ColorFilter.lighting(
+                            multiply = pair.second.second,
+                            add = pair.second.second
+                        ).also { colorF = it }
                     }
-                ),
-                contentDescription = "thumbnailUrl",
-                modifier = Modifier
-                    .size(80.dp)
-                    .padding(16.dp)
-                    .weight(1f)
-            )
-            Column( modifier = Modifier.weight(2f)) {
+                    Image(
+                        painter = rememberImagePainter(
+                            data = transaction.largeIcon.urlLI
+                                ?: pair.first,
+                        ),
+                        colorFilter = colorF,
+                        contentDescription = "thumbnailUrl",
+                        modifier = modifierLargeImage
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(
+                            bottom = 17.dp,
+                            end = 20.dp
+                        )
+                ) {
+                    val pair = Category.selectIcon(transaction.smallIcon.categorySI)
+                    Image(
+                        painter = rememberImagePainter(
+                            data = pair.first,
+                            builder = {
+                                transformations(CircleCropTransformation())
+                            }
+                        ),
+                        alpha = 1.0F,
+                        colorFilter = ColorFilter.lighting(pair.second.second,
+                            pair.second.second),
+                        contentDescription = "thumbnailUrl",
+                        modifier = Modifier
+                            .size(25.dp)
+                            .border(3.dp, Color.White, CircleShape)
+                            .padding(3.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                    )
+                }
+
+            }
+
+            Column(modifier = Modifier.weight(2f)) {
                 Text(
                     text = String.format("%s", transaction.message),
                     color = Color.Black,
@@ -74,14 +126,19 @@ fun TransactionItem(
                 )
             }
             transaction.amount?.let {
-                AmountText(amount = it,
+                AmountText(
+                    amount = it,
                     fontSize = 14.sp,
-                    modifier = Modifier.width(220.dp)
-                        .weight(1f))
+                    modifier = Modifier
+                        .width(220.dp)
+                        .weight(1f)
+                )
             }
         }
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
