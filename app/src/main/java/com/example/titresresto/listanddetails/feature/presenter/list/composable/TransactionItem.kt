@@ -46,34 +46,37 @@ fun TransactionItem(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
+            val obj = Category.selectIcon(transaction.largeIcon.categoryLI)
             Box(
                 modifier = Modifier.weight(1f)
             ) {
+
                 Box(modifier = Modifier.align(Alignment.Center)) {
                     // Advanced
-                    val pair = Category.selectIcon(transaction.largeIcon.categoryLI)
+
                     var colorF : ColorFilter? = null
                     var modifierLargeImage = Modifier
                         .size(90.dp)
                         .padding(16.dp)
+                        .border(1.dp, Color.LightGray, RoundedCornerShape(25.dp))
                         .clip(RoundedCornerShape(25.dp))
                     if(transaction.largeIcon.urlLI == null) {
                         modifierLargeImage = Modifier
                             .size(90.dp)
+                            .border(16.dp, Color.White, RoundedCornerShape(38.dp))
+                            .clip(RoundedCornerShape(38.dp))
+                            .background(obj.background)
                             .padding(25.dp)
-                            .border(10.dp, pair.second.first)
-                            .padding(3.dp)
-                            .background(pair.second.first)
-                            .clip(RoundedCornerShape(25.dp))
+
                         ColorFilter.lighting(
-                            multiply = pair.second.second,
-                            add = pair.second.second
+                            multiply = obj.foreground,
+                            add = obj.foreground
                         ).also { colorF = it }
                     }
                     Image(
                         painter = rememberImagePainter(
                             data = transaction.largeIcon.urlLI
-                                ?: pair.first,
+                                ?: obj.idResource,
                         ),
                         colorFilter = colorF,
                         contentDescription = "thumbnailUrl",
@@ -84,21 +87,21 @@ fun TransactionItem(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(
-                            bottom = 17.dp,
-                            end = 20.dp
+                            bottom = 15.dp,
+                            end = 18.dp
                         )
                 ) {
-                    val pair = Category.selectIcon(transaction.smallIcon.categorySI)
+                    val obj = Category.selectIcon(transaction.smallIcon.categorySI)
                     Image(
                         painter = rememberImagePainter(
-                            data = pair.first,
+                            data = obj.idResource,
                             builder = {
                                 transformations(CircleCropTransformation())
                             }
                         ),
                         alpha = 1.0F,
-                        colorFilter = ColorFilter.lighting(pair.second.second,
-                            pair.second.second),
+                        colorFilter = ColorFilter.lighting(obj.foreground,
+                            obj.foreground),
                         contentDescription = "thumbnailUrl",
                         modifier = Modifier
                             .size(25.dp)
@@ -113,7 +116,7 @@ fun TransactionItem(
 
             Column(modifier = Modifier.weight(2f)) {
                 Text(
-                    text = String.format("%s", transaction.message),
+                    text = String.format("%s", transaction.message ?: obj.name),
                     color = Color.Black,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(start = 2.dp, end = 16.dp)
