@@ -169,8 +169,7 @@ fun AlbumItemPreview() {
                 largeIcon = LargeIcon(
                     urlLI = "https://res.cloudinary.com/hbnjrwllw/image/upload/v1583240999/neobank/charity/cdaa7851-da33-4b3c-8e01-228c4b085ac3.png",
                     categoryLI = "donation"
-                ),
-
+                )
                 )
         )
     }
