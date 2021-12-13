@@ -28,7 +28,7 @@ fun AmountText(
 ) {
         Text(
             text = String.format("%.2f %s ", amount.value, amount.currency.symbol),
-            color = Color.Black,
+            color = Color(0xFF6346D0),
             fontSize = fontSize,
             textAlign = TextAlign.Center,
             modifier = modifier.wrapContentWidth()
